@@ -4,7 +4,7 @@ import { financialInitializationApi } from '../../api/financialInitialization'
 import { useAuth } from '../../context/AuthContext'
 import Spinner from '../../components/ui/Spinner'
 import toast from 'react-hot-toast'
-import { CheckCircle, AlertTriangle, Landmark, DollarSign } from 'lucide-react'
+import { CheckCircle, AlertTriangle, Landmark, DollarSign, ShieldAlert, X } from 'lucide-react'
 
 const fmtMoney = (v) =>
   Number(v).toLocaleString('es-PE', { style: 'currency', currency: 'PEN' })
@@ -19,6 +19,7 @@ export default function FinancialInitialization() {
   const [status, setStatus] = useState(null)
   const [accounts, setAccounts] = useState([])
   const [errors, setErrors] = useState({})
+  const [showConfirmModal, setShowConfirmModal] = useState(false)
 
   useEffect(() => {
     loadStatus()
@@ -60,13 +61,17 @@ export default function FinancialInitialization() {
     0
   )
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
     if (!isAdminGeneral) {
       toast.error('Solo el administrador general puede inicializar')
       return
     }
+    setShowConfirmModal(true)
+  }
 
+  const doInitialize = async () => {
+    setShowConfirmModal(false)
     setSaving(true)
     setErrors({})
     try {
@@ -284,6 +289,117 @@ export default function FinancialInitialization() {
             </button>
           </div>
         </form>
+      )}
+
+      {/* ── Confirmation modal ─────────────────────────────────── */}
+      {showConfirmModal && (
+        <div
+          style={{
+            position: 'fixed', inset: 0, zIndex: 1000,
+            background: 'rgba(0,0,0,0.55)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            padding: '1rem',
+          }}
+          onClick={() => setShowConfirmModal(false)}
+        >
+          <div
+            style={{
+              background: 'var(--color-bg)',
+              borderRadius: 12,
+              width: '100%', maxWidth: 480,
+              boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
+              overflow: 'hidden',
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div
+              style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                padding: '1rem 1.5rem',
+                borderBottom: '1px solid var(--color-border)',
+              }}
+            >
+              <div className="flex items-center gap-2">
+                <ShieldAlert size={20} style={{ color: 'var(--color-warning, #d97706)' }} />
+                <span style={{ fontWeight: 700, fontSize: '1rem' }}>
+                  Confirmar Inicialización Financiera
+                </span>
+              </div>
+              <button
+                onClick={() => setShowConfirmModal(false)}
+                style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4, display: 'flex' }}
+              >
+                <X size={18} style={{ opacity: 0.5 }} />
+              </button>
+            </div>
+
+            {/* Warning banner */}
+            <div
+              style={{
+                background: 'var(--color-warning-bg, #fffbeb)',
+                borderBottom: '1px solid var(--color-warning-border, #fcd34d)',
+                padding: '0.875rem 1.5rem',
+                fontSize: '0.85rem',
+              }}
+            >
+              <p style={{ margin: 0, color: 'var(--color-warning-text, #92400e)', fontWeight: 600, marginBottom: '0.4rem' }}>
+                ⚠ Esta acción es única e irreversible
+              </p>
+              <ul style={{ margin: 0, paddingLeft: '1.25rem', color: 'var(--color-warning-text, #92400e)', lineHeight: 1.7 }}>
+                <li>Los saldos que ingreses serán el <strong>punto de partida de toda la contabilidad</strong>.</li>
+                <li>No podrás modificarlos una vez confirmados.</li>
+                <li>La primera apertura de caja deberá coincidir exactamente con el saldo inicial de efectivo.</li>
+              </ul>
+            </div>
+
+            {/* Accounts summary */}
+            <div style={{ padding: '1rem 1.5rem', maxHeight: 220, overflowY: 'auto' }}>
+              <p style={{ margin: '0 0 0.75rem', fontWeight: 600, fontSize: '0.875rem' }}>
+                Saldos que se confirmarán:
+              </p>
+              {accounts.map((acc) => (
+                <div
+                  key={acc.id}
+                  className="flex items-center justify-between"
+                  style={{ padding: '0.4rem 0', borderBottom: '1px solid var(--color-border)' }}
+                >
+                  <span style={{ fontSize: '0.875rem' }}>{acc.name}</span>
+                  <span style={{ fontWeight: 600, fontSize: '0.875rem' }}>
+                    {fmtMoney(acc.initial_balance || 0)}
+                  </span>
+                </div>
+              ))}
+              <div
+                className="flex items-center justify-between"
+                style={{ paddingTop: '0.75rem', fontWeight: 700 }}
+              >
+                <span>Total</span>
+                <span>{fmtMoney(totalInitial)}</span>
+              </div>
+            </div>
+
+            {/* Actions */}
+            <div
+              className="flex items-center justify-end gap-3"
+              style={{ padding: '1rem 1.5rem', borderTop: '1px solid var(--color-border)' }}
+            >
+              <button
+                className="btn-secondary"
+                onClick={() => setShowConfirmModal(false)}
+              >
+                Revisar
+              </button>
+              <button
+                className="btn-primary"
+                style={{ background: 'var(--color-warning, #d97706)', borderColor: 'var(--color-warning, #d97706)' }}
+                onClick={doInitialize}
+              >
+                Sí, inicializar
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   )
