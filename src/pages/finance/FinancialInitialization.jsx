@@ -394,8 +394,7 @@ export default function FinancialInitialization() {
                 Revisar
               </button>
               <button
-                className="btn-primary"
-                style={{ background: '#d97706', borderColor: '#d97706' }}
+                className="btn-warning"
                 onClick={doInitialize}
               >
                 Sí, inicializar
