@@ -1,3 +1,12 @@
+# Fullstack restaurant management system built with:
+
+- Laravel (REST API)
+- React + Vite (SPA)
+- MySQL
+
+The platform manages the full operational and financial workflow of a restaurant:
+orders → sales → expenses → cash register → financial reports.
+
 # Frontend — Sistema de Gestión para Restaurantes
 
 SPA construida con **React 18 + Vite** para operar el ciclo diario de un restaurante sobre una API REST en Laravel.
