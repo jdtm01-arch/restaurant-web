@@ -295,8 +295,8 @@ export default function FinancialInitialization() {
       {showConfirmModal && (
         <div
           style={{
-            position: 'fixed', inset: 0, zIndex: 1000,
-            background: 'rgba(0,0,0,0.55)',
+            position: 'fixed', inset: 0, zIndex: 9999,
+            background: 'rgba(0,0,0,0.65)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             padding: '1rem',
           }}
@@ -304,95 +304,98 @@ export default function FinancialInitialization() {
         >
           <div
             style={{
-              background: 'var(--color-bg)',
+              background: '#fff',
               borderRadius: 12,
-              width: '100%', maxWidth: 480,
-              boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
-              overflow: 'hidden',
+              width: '100%', maxWidth: 460,
+              boxShadow: '0 25px 60px rgba(0,0,0,0.35)',
+              display: 'flex', flexDirection: 'column',
             }}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
-            <div
-              style={{
-                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                padding: '1rem 1.5rem',
-                borderBottom: '1px solid var(--color-border)',
-              }}
-            >
-              <div className="flex items-center gap-2">
-                <ShieldAlert size={20} style={{ color: 'var(--color-warning, #d97706)' }} />
-                <span style={{ fontWeight: 700, fontSize: '1rem' }}>
+            <div style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+              padding: '1.1rem 1.5rem',
+              borderBottom: '1px solid #e5e7eb',
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <ShieldAlert size={20} color="#d97706" />
+                <span style={{ fontWeight: 700, fontSize: '0.95rem', color: '#111827' }}>
                   Confirmar Inicialización Financiera
                 </span>
               </div>
               <button
                 onClick={() => setShowConfirmModal(false)}
-                style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4, display: 'flex' }}
+                style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4, lineHeight: 0 }}
               >
-                <X size={18} style={{ opacity: 0.5 }} />
+                <X size={18} color="#9ca3af" />
               </button>
             </div>
 
-            {/* Warning banner */}
-            <div
-              style={{
-                background: 'var(--color-warning-bg, #fffbeb)',
-                borderBottom: '1px solid var(--color-warning-border, #fcd34d)',
-                padding: '0.875rem 1.5rem',
-                fontSize: '0.85rem',
-              }}
-            >
-              <p style={{ margin: 0, color: 'var(--color-warning-text, #92400e)', fontWeight: 600, marginBottom: '0.4rem' }}>
+            {/* Warning */}
+            <div style={{
+              background: '#fffbeb',
+              borderBottom: '1px solid #fde68a',
+              padding: '0.9rem 1.5rem',
+            }}>
+              <p style={{ margin: '0 0 0.5rem', fontWeight: 700, fontSize: '0.82rem', color: '#92400e' }}>
                 ⚠ Esta acción es única e irreversible
               </p>
-              <ul style={{ margin: 0, paddingLeft: '1.25rem', color: 'var(--color-warning-text, #92400e)', lineHeight: 1.7 }}>
-                <li>Los saldos que ingreses serán el <strong>punto de partida de toda la contabilidad</strong>.</li>
-                <li>No podrás modificarlos una vez confirmados.</li>
-                <li>La primera apertura de caja deberá coincidir exactamente con el saldo inicial de efectivo.</li>
+              <ul style={{ margin: 0, paddingLeft: '1.1rem', color: '#78350f', fontSize: '0.82rem', lineHeight: 1.75 }}>
+                <li>Los saldos ingresados serán el <strong>punto de partida de toda la contabilidad</strong>.</li>
+                <li>No podrán modificarse una vez confirmados.</li>
+                <li>La primera apertura de caja debe coincidir con el saldo inicial de efectivo.</li>
               </ul>
             </div>
 
             {/* Accounts summary */}
-            <div style={{ padding: '1rem 1.5rem', maxHeight: 220, overflowY: 'auto' }}>
-              <p style={{ margin: '0 0 0.75rem', fontWeight: 600, fontSize: '0.875rem' }}>
-                Saldos que se confirmarán:
+            <div style={{ padding: '1rem 1.5rem' }}>
+              <p style={{ margin: '0 0 0.6rem', fontWeight: 600, fontSize: '0.8rem', color: '#374151' }}>
+                Saldos a confirmar:
               </p>
-              {accounts.map((acc) => (
-                <div
-                  key={acc.id}
-                  className="flex items-center justify-between"
-                  style={{ padding: '0.4rem 0', borderBottom: '1px solid var(--color-border)' }}
-                >
-                  <span style={{ fontSize: '0.875rem' }}>{acc.name}</span>
-                  <span style={{ fontWeight: 600, fontSize: '0.875rem' }}>
-                    {fmtMoney(acc.initial_balance || 0)}
+              <div style={{ border: '1px solid #e5e7eb', borderRadius: 8, overflow: 'hidden' }}>
+                {accounts.map((acc, i) => (
+                  <div
+                    key={acc.id}
+                    style={{
+                      display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                      padding: '0.55rem 1rem',
+                      background: i % 2 === 0 ? '#f9fafb' : '#fff',
+                      borderBottom: i < accounts.length - 1 ? '1px solid #e5e7eb' : 'none',
+                    }}
+                  >
+                    <span style={{ fontSize: '0.85rem', color: '#374151' }}>{acc.name}</span>
+                    <span style={{ fontSize: '0.85rem', fontWeight: 600, color: '#111827' }}>
+                      {fmtMoney(acc.initial_balance || 0)}
+                    </span>
+                  </div>
+                ))}
+                <div style={{
+                  display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                  padding: '0.65rem 1rem',
+                  background: '#f3f4f6',
+                  borderTop: '2px solid #d1d5db',
+                }}>
+                  <span style={{ fontWeight: 700, fontSize: '0.85rem', color: '#111827' }}>Total</span>
+                  <span style={{ fontWeight: 700, fontSize: '0.95rem', color: '#111827' }}>
+                    {fmtMoney(totalInitial)}
                   </span>
                 </div>
-              ))}
-              <div
-                className="flex items-center justify-between"
-                style={{ paddingTop: '0.75rem', fontWeight: 700 }}
-              >
-                <span>Total</span>
-                <span>{fmtMoney(totalInitial)}</span>
               </div>
             </div>
 
             {/* Actions */}
-            <div
-              className="flex items-center justify-end gap-3"
-              style={{ padding: '1rem 1.5rem', borderTop: '1px solid var(--color-border)' }}
-            >
-              <button
-                className="btn-secondary"
-                onClick={() => setShowConfirmModal(false)}
-              >
+            <div style={{
+              display: 'flex', justifyContent: 'flex-end', gap: 10,
+              padding: '0.9rem 1.5rem',
+              borderTop: '1px solid #e5e7eb',
+            }}>
+              <button className="btn-secondary" onClick={() => setShowConfirmModal(false)}>
                 Revisar
               </button>
               <button
                 className="btn-primary"
-                style={{ background: 'var(--color-warning, #d97706)', borderColor: 'var(--color-warning, #d97706)' }}
+                style={{ background: '#d97706', borderColor: '#d97706' }}
                 onClick={doInitialize}
               >
                 Sí, inicializar
