@@ -189,10 +189,10 @@
     @apply w-full max-w-md;
   }
   .login-page__brand {
-    @apply mb-8 text-center;
+    @apply mb-4 text-center;
   }
   .login-page__logo {
-    @apply mx-auto mb-4 h-20 w-20 rounded-2xl object-contain shadow-lg;
+    @apply mx-auto mb-2 h-16 w-16 rounded-2xl object-contain shadow-lg;
   }
   .login-page__title {
     @apply text-2xl font-bold text-gray-900;
@@ -201,10 +201,10 @@
     @apply mt-1 text-sm text-gray-500;
   }
   .login-page__heading {
-    @apply mb-6 text-center text-lg font-semibold text-gray-800;
+    @apply mb-4 text-center text-lg font-semibold text-gray-800;
   }
   .login-page__form {
-    @apply space-y-4;
+    @apply space-y-3;
   }
   .login-page__password-wrapper {
     @apply relative;
@@ -216,7 +216,7 @@
     @apply btn-primary w-full justify-center py-2.5;
   }
   .login-page__demo {
-    @apply mt-4 rounded-xl border border-dashed border-primary-300 bg-primary-50/60 px-5 py-4 text-center;
+    @apply mt-3 rounded-xl border border-dashed border-primary-300 bg-primary-50/60 px-4 py-3 text-center;
   }
   .login-page__demo-title {
     @apply mb-3 text-xs font-semibold uppercase tracking-wide text-primary-600;
