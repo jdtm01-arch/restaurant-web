@@ -107,6 +107,31 @@ export default function Login() {
             </button>
           </form>
         </div>
+
+        {/* Demo credentials */}
+        <div className="login-page__demo">
+          <p className="login-page__demo-title">Credenciales de demo</p>
+          <div className="login-page__demo-credentials">
+            <div className="login-page__demo-row">
+              <span className="login-page__demo-label">Email:</span>
+              <code className="login-page__demo-value">super-admin@turestaurante.com</code>
+            </div>
+            <div className="login-page__demo-row">
+              <span className="login-page__demo-label">Contraseña:</span>
+              <code className="login-page__demo-value">admin1234</code>
+            </div>
+          </div>
+          <button
+            type="button"
+            className="login-page__demo-fill"
+            onClick={() => {
+              setEmail('super-admin@turestaurante.com')
+              setPassword('admin1234')
+            }}
+          >
+            Usar credenciales demo
+          </button>
+        </div>
       </div>
     </div>
   )

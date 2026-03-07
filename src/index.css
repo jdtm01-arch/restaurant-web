@@ -215,6 +215,27 @@
   .login-page__submit {
     @apply btn-primary w-full justify-center py-2.5;
   }
+  .login-page__demo {
+    @apply mt-4 rounded-xl border border-dashed border-primary-300 bg-primary-50/60 px-5 py-4 text-center;
+  }
+  .login-page__demo-title {
+    @apply mb-3 text-xs font-semibold uppercase tracking-wide text-primary-600;
+  }
+  .login-page__demo-credentials {
+    @apply mb-3 space-y-1 text-sm text-gray-700;
+  }
+  .login-page__demo-row {
+    @apply flex items-center justify-center gap-2;
+  }
+  .login-page__demo-label {
+    @apply font-medium text-gray-500;
+  }
+  .login-page__demo-value {
+    @apply rounded bg-white px-2 py-0.5 font-mono text-xs text-gray-800 shadow-sm ring-1 ring-gray-200;
+  }
+  .login-page__demo-fill {
+    @apply mt-1 inline-flex items-center gap-1 rounded-lg bg-primary-600 px-4 py-1.5 text-xs font-semibold text-white shadow-sm transition hover:bg-primary-700 active:scale-95;
+  }
 
   /* ============================================================
      DASHBOARD PAGE
